@@ -77,3 +77,21 @@ case object Html extends TargetLanguage {
 
   def htmlEncode(s: String) = org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(s)
 }
+
+case object Csv extends TargetLanguage {
+  val ext = "csv"
+  def documentStart(title: String, reportStyleRules: Option[String]): String = ""
+  def documentEnd(): String = ""
+  def createHyperLink(link: String, content: String): String = {
+    if (link != null && !link.trim().isEmpty()) s"$content ($link)" else s"$content"
+  }
+  def blankLine(): String = ""
+  def header1(msg: String): String = ""
+  def header4(msg: String): String = ""
+  def tableHeader(firstColumn: String, secondColumn: String, thirdColumn: String, fourthColumn: String): String =
+    tableRow(firstColumn, secondColumn, thirdColumn, fourthColumn)
+  def tableRow(firstColumn: String, secondColumn: String, thirdColumn: String, fourthColumn: String): String =
+    s"""${csvEncode(firstColumn)},${csvEncode(secondColumn)},${csvEncode(thirdColumn)},${csvEncode(fourthColumn)}\n"""
+  def tableEnd: String = ""
+  def csvEncode(s: String): String = org.apache.commons.lang3.StringEscapeUtils.escapeCsv(s)
+}
