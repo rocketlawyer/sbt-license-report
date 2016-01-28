@@ -13,8 +13,6 @@ sealed trait TargetLanguage {
   def blankLine(): String
   /** Creates something equivalent to an html &lt;h1&gt; tag. */
   def header1(msg: String): String
-  /** Creates something equivalent to an html &lt;h4&gt; tag. */
-  def header4(msg: String): String
   /** The syntax for the header of a table. */
   def tableHeader(firstColumn: String, secondColumn: String, thirdColumn: String, fourthColumn: String): String
   /** The syntax for a row of a table. */
@@ -32,7 +30,6 @@ case object MarkDown extends TargetLanguage {
   def createHyperLink(link: String, content: String): String =
     s"[$content]($link)"
   def blankLine(): String = "\n"
-  def header4(msg: String): String = s"#### $msg\n"
   def header1(msg: String): String = s"# $msg\n"
   def tableHeader(firstColumn: String, secondColumn: String, thirdColumn: String, fourthColumn: String): String =
     s"""
@@ -66,7 +63,6 @@ case object Html extends TargetLanguage {
     s"""<a href="$link">$content</a>"""
   def blankLine(): String = "<p>&nbsp;</p>"
   def header1(msg: String): String = s"<h1>$msg</h1>"
-  def header4(msg: String): String = s"<h4>$msg</h4>"
   def tableHeader(firstColumn: String, secondColumn: String, thirdColumn: String, fourthColumn: String): String =
     s"""<table border="0" cellspacing="0" cellpading="1">
       <thead><tr><th>$firstColumn</th><th>$secondColumn</th><th>$thirdColumn</th><th>$fourthColumn</th></tr></thead>
@@ -87,7 +83,6 @@ case object Csv extends TargetLanguage {
   }
   def blankLine(): String = ""
   def header1(msg: String): String = ""
-  def header4(msg: String): String = ""
   def tableHeader(firstColumn: String, secondColumn: String, thirdColumn: String, fourthColumn: String): String =
     tableRow(firstColumn, secondColumn, thirdColumn, fourthColumn)
   def tableRow(firstColumn: String, secondColumn: String, thirdColumn: String, fourthColumn: String): String =
